@@ -1,0 +1,121 @@
+<html>
+<head>
+<link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"></link>
+<script src="jquery.min.js">
+</script>
+<style>
+body {
+ font-family:'Open Sans', Arial, Verdana;
+ background-color:yellow;
+   padding:2rem;
+}
+p, h3 {
+   margin:0;
+   padding: 0;
+}
+.tables-doctor {
+   &-content {
+      margin:0 0 2rem 0;
+   }
+   &-name {
+      font-weight:bold;      
+   }
+   &-title {
+      color:#777;
+   }
+}
+.table {
+   margin:1rem 0 1rem 0;
+   width:100%;
+   background: #f1f1f1;
+   border-collapse: collapse;
+   display: table;
+   thead tr th {
+      border-bottom: 1px solid #666;
+      border-top: 1px solid #666;
+      padding: .5rem 1rem .5rem .5rem;
+      background: #e4e4e4;
+   }
+   th {
+      text-align:left;
+      padding: .5rem 1rem .5rem .5rem;
+      border-collapse: collapse;
+      &[scope="row"] {
+         font-weight:bold;
+      }
+      &[scope="col"] {
+         text-align:left;
+         color: #333;
+         padding: .5rem 1rem .5rem .5rem
+      }
+   }
+   tbody tr:nth-child(even) {background: #f3f3f3}
+   tbody tr:nth-child(odd) {background: #FFF}
+}
+.btn {
+   border:1px solid #666;
+   padding:.5rem .95rem;
+   cursor: pointer;
+   transition: background-color .5s ease;
+   &:hover {
+      background-color: #ccc;
+   }
+}
+</style>
+</head>
+<body>
+<script>
+$(document).ready(function(){
+
+  // jQuery methods go here...
+  //alert('hellooooo');
+  
+  function getAllBook(){
+	$.get("http://localhost:8081/jbook/listjson", function(data, status){
+		alert("Data: " + data + "\nStatus: " + status);
+		console.log(JSON.stringify(data));
+		var result = JSON.parse(JSON.stringify(data));
+		console.log(result);
+		var html = '<div class="tables-doctor-content">';
+		 html +='<table class="table">'
+                  +'<thead>'
+                  +'<tr>'
+                  +'<th scope="col">ID</th>'
+                  +'<th scope="col">Title</th>'
+                  +'<th scope="col">Author</th>'
+                  +'<th scope="col">Price</th>'
+                  +'</tr>'
+                  +'</thead>'
+                  +'<tbody>'
+		for(var i=0;i < result.length; i++) {
+			html +='<tr>'
+                     +'<td>'+result[i].id+'</td>'
+                     +'<td>'+result[i].title+'</td>'
+                     +'<td>'+result[i].author+'</td>'
+                     +'<td>'+result[i].price+'</td>'
+                     +'</tr>';
+		}
+		html +='</tbody></table>';
+		html +='</div>';
+		alert(html);
+		$('.tables-doctor').html(html);
+	});
+  }
+  
+  getAllBook();
+
+});
+</script>
+<div class="container">
+  <div class="row">
+    <div class="tables">
+	   <div>
+		  <!-- table result -->
+		  <div class="tables-doctor">
+		  </div>
+	   </div>
+	</div>
+  </div>
+</div>
+</body>
+</html>
